@@ -1,0 +1,106 @@
+import java.util.*;
+class Main
+{
+  static class Node {
+        int key;
+        Node next;
+    	Node(int val){
+        	key=val;
+          	next=null;
+        }
+    }
+  static Node insertNode(Node head, int val) {
+	Node newNode = new Node(val);
+	if(head==null) {
+		head=newNode;
+		return head;
+	}
+	Node temp=head;
+	while(temp.next!=null)
+		temp=temp.next;
+	temp.next=newNode;
+	return head;
+}
+
+    static Node reverseList(Node head)
+    {
+ 
+        if (head.next == null)
+            return head;
+ 
+        Node rest = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+ 
+        return rest;
+    }
+ 
+    static Node sortedMerge(Node a, Node b)
+    {
+        a = reverseList(a);
+        b = reverseList(b);
+        Node head = null;
+        Node temp;
+        while (a != null && b != null) {
+            if (a.key >= b.key) {
+                temp = a.next;
+                a.next = head;
+                head = a;
+                a = temp;
+            }
+            else {
+                temp = b.next;
+                b.next = head;
+                head = b;
+                b = temp;
+            }
+        }
+        while (a != null) {
+            temp = a.next;
+            a.next = head;
+            head = a;
+            a = temp;
+        }
+        while (b != null) {
+            temp = b.next;
+            b.next = head;
+            head = b;
+            b = temp;
+        }
+        return head;
+    }
+    static void printList(Node Node)
+    {
+        while (Node != null) {
+            System.out.print(Node.key + "->");
+            Node = Node.next;
+        }
+    }
+    static Node newNode(int key)
+    {
+        Node temp=null;
+        temp.key = key;
+        temp.next = null;
+        return temp;
+    }
+  public static void main(String args[])
+  {
+    //Try out your code here
+    Scanner sc=new Scanner(System.in);
+    int n1=sc.nextInt();
+    Node l1=null;
+    for(int i=0;i<n1;i++){
+    	int temp=sc.nextInt();
+      	l1=insertNode(l1,temp);
+    }
+    int n2=sc.nextInt();
+    Node l2=null;
+    for(int i=0;i<n2;i++){
+    	int temp=sc.nextInt();
+      l2=insertNode(l2,temp);
+    }
+    Node res = sortedMerge(l1, l2);
+    printList(res);
+    System.out.println("NULL");
+  }
+}
