@@ -1,0 +1,79 @@
+import java.util.*;
+class Main
+{
+  static class Node {
+        int key;
+        Node next;
+    	Node(int val){
+        	key=val;
+          	next=null;
+        }
+    }
+  static Node insertNode(Node head,int val){
+  	Node newNode=new Node(val);
+    if(head==null){
+    	head=newNode;
+      return head;
+    }
+    Node temp=head;
+    while(temp.next!=null){
+    	temp=temp.next;
+    }
+    temp.next=newNode;
+    return head;
+  }
+  
+  static Node reverseLinkedList(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node newHead = reverseLinkedList(head.next);
+        Node front = head.next;
+        front.next = head;
+        head.next = null;
+        return newHead;
+    }
+    
+     static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        Node slow = head;
+        Node fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Node newHead = reverseLinkedList(slow.next);
+        Node first = head;
+        Node second = newHead;
+        while (second != null) {
+            if (first.key != second.key) {
+                reverseLinkedList(newHead);
+                return false;
+            }
+            first = first.next;
+            second = second.next;
+        }
+        reverseLinkedList(newHead);
+        return true;
+    } 
+  
+  public static void main(String args[])
+  {
+    //Try out your code here
+    Scanner sc=new Scanner(System.in);
+    int n=sc.nextInt();
+    Node l1=null;
+    for(int i=0;i<n;i++){
+    	int temp=sc.nextInt();
+      	l1=insertNode(l1,temp);
+    }
+    if(isPalindrome(l1)==true){
+    	System.out.println("True");
+    }
+    else{
+    	System.out.println("False");
+    }
+  }
+}
