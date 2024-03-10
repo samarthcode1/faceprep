@@ -49,13 +49,11 @@ class Main
         Node second = newHead;
         while (second != null) {
             if (first.key != second.key) {
-                reverseLinkedList(newHead);
                 return false;
             }
             first = first.next;
             second = second.next;
         }
-        reverseLinkedList(newHead);
         return true;
     } 
   
