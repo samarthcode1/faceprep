@@ -1,0 +1,23 @@
+import java.util.*;
+public class Main {
+    public static String longestHappyPrefix(String s) {
+        int n = s.length();
+      	int maxi=0;
+        for (int i = 1; i < n; i++) {
+            if (s.substring(0, i).equals(s.substring(n - i))) {
+              	maxi=Math.max(maxi, i);
+            }
+        }
+      	if(maxi!=0){
+        	return s.substring(0, maxi);	
+        }
+        return "";
+    }
+
+    public static void main(String[] args) {
+     	Scanner sc=new Scanner(System.in);  
+      	String s = sc.nextLine();
+        String longestPrefix = longestHappyPrefix(s);
+        System.out.println(longestPrefix);  // Output: abab
+    }
+}
