@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+int longestsub(string s){
+	vector<int>v(200,-1);
+  	int length=0,front=-1;
+  	for(int i=0;i<s.size();i++){
+    	if(v[s[i]]>front){
+        	front=v[s[i]];
+        }
+      	v[s[i]]=i;
+      	length=max(length,i-front);
+    }
+  return length;
+}
+int main() 
+{
+	string s;
+ 	cin>>s;
+  	cout<<longestsub(s)<<endl;
+    return 0;
+}
