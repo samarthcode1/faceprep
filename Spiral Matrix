@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> spiralPath(vector<vector<int>>& grid) {
+    vector<int> result;
+    if (grid.empty()) return result;
+
+    int rows = grid.size();
+    int cols = grid[0].size();
+    int topRow = 0, bottomRow = rows - 1;
+    int leftCol = 0, rightCol = cols - 1;
+
+    while (topRow <= bottomRow && leftCol <= rightCol) {
+        // Traverse right
+        for (int col = leftCol; col <= rightCol; ++col)
+            result.push_back(grid[topRow][col]);
+        ++topRow;
+
+        // Traverse down
+        for (int row = topRow; row <= bottomRow; ++row)
+            result.push_back(grid[row][rightCol]);
+        --rightCol;
+
+        // Traverse left
+        if (topRow <= bottomRow) {
+            for (int col = rightCol; col >= leftCol; --col)
+                result.push_back(grid[bottomRow][col]);
+            --bottomRow;
+        }
+
+        // Traverse up
+        if (leftCol <= rightCol) {
+            for (int row = bottomRow; row >= topRow; --row)
+                result.push_back(grid[row][leftCol]);
+            ++leftCol;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    int M, N;
+    cin >> M >> N;
+
+    vector<vector<int>> grid(M, vector<int>(N));
+    for (int i = 0; i < M; ++i)
+        for (int j = 0; j < N; ++j)
+            cin >> grid[i][j];
+
+    vector<int> spiralResult = spiralPath(grid);
+
+    for (int num : spiralResult)
+        cout << num << " ";
+    cout << endl;
+
+    return 0;
+}
