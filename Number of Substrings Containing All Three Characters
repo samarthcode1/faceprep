@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+int check(string s){
+  int n=s.size();
+  unordered_map<char,int>mp;
+  int count=0,start=0,end=0;
+  while(end<n){
+  	mp[s[end]]++;
+    while(mp['a']>=1 && mp['b']>=1 && mp['c']>=1){
+    	count+=n-end;
+      	mp[s[start]]--;
+  	    start++;
+    	}
+    end++;
+  }
+  return count;
+}
+int main() 
+{
+	string s;
+  	cin>>s;
+  	int count=check(s);
+  cout<<count;
+    return 0;
+}
