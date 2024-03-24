@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+#include <vector>
+using namespace std;
+void paren(int left,int right,string &s,vector<string> &res){
+        if(left==0 && right==0){
+            res.push_back(s);
+        }
+        if(left>right || left<0 || right<0){
+            return;
+        }
+        s.push_back('(');
+        paren(left-1,right,s,res);
+        s.pop_back();
+        s.push_back(')');
+        paren(left,right-1,s,res);
+        s.pop_back();
+    }
+    vector<string> generateParenthesis(int n,vector<string>& v) {
+        string s;
+        int left=n;
+        int right=n;
+        paren(left,right,s,v);
+        return v;
+
+    }
+int main() 
+{
+  int n;
+  cin>>n;
+  vector<string>v;
+  generateParenthesis(n,v);
+  for(int i=0;i<v.size();i++){
+  	for(int j=0;j<v[i].size();j++){
+    	cout<<v[i][j];
+    }
+    cout<<" ";
+  }
+    return 0;
+}
