@@ -1,0 +1,97 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <sstream>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+vector<int> rightSideView(TreeNode* root) {
+    vector<int> result;
+    if (!root) return result;
+
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        int levelSize = q.size();
+        int lastNodeVal = -1; // Initialize with invalid value
+
+        for (int i = 0; i < levelSize; ++i) {
+            TreeNode* node = q.front();
+            q.pop();
+
+            // Update the last node value at each level
+            lastNodeVal = node->val;
+
+            // Add the children of the current node to the queue
+            if (node->left) {
+                q.push(node->left);
+            }
+            if (node->right) {
+                q.push(node->right);
+            }
+        }
+        // Add the last node value of the current level to the result
+        result.push_back(lastNodeVal);
+    }
+
+    return result;
+}
+
+TreeNode* createTree(vector<string>& nodes) {
+    if (nodes.empty()) return nullptr;
+
+    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    queue<TreeNode*> q;
+    q.push(root);
+    size_t i = 1;
+
+    while (!q.empty() && i < nodes.size()) {
+        TreeNode* current = q.front();
+        q.pop();
+
+        if (nodes[i] != "N") {
+            current->left = new TreeNode(stoi(nodes[i]));
+            q.push(current->left);
+        }
+        ++i;
+
+        if (i < nodes.size() && nodes[i] != "N") {
+            current->right = new TreeNode(stoi(nodes[i]));
+            q.push(current->right);
+        }
+        ++i;
+    }
+
+    return root;
+}
+
+int main() {
+    string input;
+    getline(cin, input);
+    istringstream iss(input);
+    vector<string> nodes;
+    string val;
+    while (iss >> val) {
+        nodes.push_back(val);
+    }
+
+    TreeNode* root = createTree(nodes);
+    vector<int> result = rightSideView(root);
+
+    for (int i = 0; i < result.size(); ++i) {
+        cout << result[i];
+        if (i != result.size() - 1) {
+            cout << " ";
+        }
+    }
+    cout << endl;
+
+    return 0;
+}
