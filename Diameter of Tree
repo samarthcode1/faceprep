@@ -8,19 +8,22 @@ struct TreeNode {
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
-int height(TreeNode* root) {
-    if (!root) return 0;
-    return 1 + max(height(root->left), height(root->right));
-}
+int height(TreeNode* node, int& diameter) {
+        if (!node) {
+            return 0;
+        }
+        int lh = height(node->left, diameter);
+        int rh = height(node->right, diameter);
+        diameter = max(diameter, lh + rh);
+        return 1 + max(lh, rh);
+  }
 
 int diameterOfBinaryTree(TreeNode* root) {
-    if (!root) return 0;
-    int diameterRoot = height(root->left) + height(root->right);
-    int diameterLeft = diameterOfBinaryTree(root->left);
-    int diameterRight = diameterOfBinaryTree(root->right);
-    return max(diameterRoot, max(diameterLeft, diameterRight));
+    int diameter = 0;
+    height(root, diameter);
+    return diameter;
 }
+
 
 TreeNode* insert(TreeNode* root, int val) {
     if (!root) return new TreeNode(val);
@@ -37,7 +40,7 @@ int main() {
     while (cin >> val && val != -1) {
         root = insert(root, val);
     }
-c    int diameter = diameterOfBinaryTree(root);
+    int diameter = diameterOfBinaryTree(root);
     cout << "Diameter of the given binary tree is " << diameter+1 << endl;
 
     return 0;
