@@ -1,0 +1,44 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+int height(TreeNode* root) {
+    if (!root) return 0;
+    return 1 + max(height(root->left), height(root->right));
+}
+
+int diameterOfBinaryTree(TreeNode* root) {
+    if (!root) return 0;
+    int diameterRoot = height(root->left) + height(root->right);
+    int diameterLeft = diameterOfBinaryTree(root->left);
+    int diameterRight = diameterOfBinaryTree(root->right);
+    return max(diameterRoot, max(diameterLeft, diameterRight));
+}
+
+TreeNode* insert(TreeNode* root, int val) {
+    if (!root) return new TreeNode(val);
+    if (val < root->val)
+        root->left = insert(root->left, val);
+    else if (val > root->val)
+        root->right = insert(root->right, val);
+    return root;
+}
+
+int main() {
+    TreeNode* root = nullptr;
+    int val;
+    while (cin >> val && val != -1) {
+        root = insert(root, val);
+    }
+c    int diameter = diameterOfBinaryTree(root);
+    cout << "Diameter of the given binary tree is " << diameter+1 << endl;
+
+    return 0;
+}
