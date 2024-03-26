@@ -10,38 +10,17 @@ struct TreeNode {
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
-vector<int> rightSideView(TreeNode* root) {
-    vector<int> result;
-    if (!root) return result;
-
-    queue<TreeNode*> q;
-    q.push(root);
-
-    while (!q.empty()) {
-        int levelSize = q.size();
-        int lastNodeVal = -1; // Initialize with invalid value
-
-        for (int i = 0; i < levelSize; ++i) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            // Update the last node value at each level
-            lastNodeVal = node->val;
-
-            // Add the children of the current node to the queue
-            if (node->left) {
-                q.push(node->left);
-            }
-            if (node->right) {
-                q.push(node->right);
-            }
-        }
-        // Add the last node value of the current level to the result
-        result.push_back(lastNodeVal);
+void recursion(TreeNode *root, int level, vector<int> &res)
+    {
+        if(root==NULL) return ;
+        if(res.size()==level) res.push_back(root->val);
+        recursion(root->right, level+1, res);
+        recursion(root->left, level+1, res);
     }
-
-    return result;
+vector<int> rightSideView(TreeNode* root) {
+    vector<int> res;
+        recursion(root, 0, res);
+        return res;
 }
 
 TreeNode* createTree(vector<string>& nodes) {
@@ -81,17 +60,10 @@ int main() {
     while (iss >> val) {
         nodes.push_back(val);
     }
-
     TreeNode* root = createTree(nodes);
     vector<int> result = rightSideView(root);
-
     for (int i = 0; i < result.size(); ++i) {
-        cout << result[i];
-        if (i != result.size() - 1) {
-            cout << " ";
-        }
+        cout << result[i]<<" ";
     }
-    cout << endl;
-
     return 0;
 }
